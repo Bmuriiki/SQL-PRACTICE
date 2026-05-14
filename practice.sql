@@ -82,8 +82,6 @@ GROUP BY OCCUPATION
 ORDER BY COUNT(*), OCCUPATION;
 
 7. 
-
-
 /*
    
 */
@@ -109,12 +107,39 @@ GROUP BY
 ORDER BY c.company_code;
 
 
+8. 
+/*You are given a table, Projects, containing three columns: Task_ID, Start_Date and End_Date. It is guaranteed that the 
+difference between the End_Date and the Start_Date is equal to 1 day for each row in the table.If the End_Date of the tasks are 
+consecutive, then they are part of the same project. Samantha is interested in finding the total number of different projects completed.
+Write a query to output the start and end dates of projects listed by the number of days it took to complete the project in ascending order. 
+If there is more than one project that have the same number of completion days, then order by the start date of the project.*/
+SELECT
+    MIN(START_DATE) PROJECT_START,
+    MAX(END_DATE) PROJECT_END
+FROM (
+    SELECT
+        START_DATE,
+        END_DATE,
+        START_DATE - ROW_NUMBER() OVER (ORDER BY START_DATE) DAYS GRP
+    FROM PROJECTS
+) X
+GROUP BY GRP
+ORDER BY
+    DAYS(MAX(END_DATE)) - DAYS(MIN(START_DATE)),
+    MIN(START_DATE);
 
+9. /* You are given three tables: Students, Friends and Packages. Students contains two columns: ID and Name. 
+  Friends contains two columns: ID and Friend_ID (ID of the ONLY best friend). Packages contains two columns: ID and 
+  Salary (offered salary in $ thousands per month).
+Write a query to output the names of those students whose best friends got offered a higher salary than them. Names must be ordered by 
+  the salary amount offered to the best friends. It is guaranteed that no two students got same salary offer.*/
 
-
-
-
-
+SELECT S.NAME
+FROM STUDENTS S JOIN FRIENDS F ON S.ID = F.ID
+     JOIN PACKAGES P1 ON S.ID = P1.ID
+     JOIN PACKAGES P2 ON F.FRIEND_ID = P2.ID
+WHERE P2.SALARY > P1.SALARY
+ORDER BY P2.SALARY;
 
 
 
