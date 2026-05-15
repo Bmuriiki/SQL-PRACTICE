@@ -141,6 +141,82 @@ FROM STUDENTS S JOIN FRIENDS F ON S.ID = F.ID
 WHERE P2.SALARY > P1.SALARY
 ORDER BY P2.SALARY;
 
+10.  /* We define an employee's total earnings to be their monthly  worked, and the maximum total earnings to be the maximum total 
+  earnings for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as 
+  the total number of employees who have maximum total earnings. Then print these values as  space-separated integers.*/
+
+SELECT 
+    MAX(SALARY * MONTHS) AS MAX_EARNINGS,
+    COUNT(*) AS EMPLOYEE_COUNT
+FROM EMPLOYEE
+WHERE (SALARY * MONTHS) = (
+    SELECT MAX(SALARY * MONTHS)
+    FROM EMPLOYEE
+);
+
+11. /*Query the sum of Northern Latitudes (LAT_N) from STATION having values greater than 38.7880 and less than 137.2345 . 
+Truncate your answer to  decimal places.*/
+
+SELECT DECIMAL(SUM(LAT_N), 10, 4)
+FROM STATION
+WHERE LAT_N > 38.7880
+  AND LAT_N < 137.2345;
+
+12. /*Query the Western Longitude (LONG_W) for the largest Northern Latitude (LAT_N) in STATION that is less than 137.2345. 
+Round your answer to  decimal places.*/
+  
+SELECT DECIMAL(LONG_W,10,4)
+FROM STATION
+WHERE LAT_N= (SELECT MAX(LAT_N)
+       FROM STATION
+       WHERE LAT_N<137.2345);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
